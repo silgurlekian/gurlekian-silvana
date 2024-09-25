@@ -1,29 +1,35 @@
 <x-layout>
-    <div class="container my-4">
+    <div class="container">
         <h1 class="my-4">Lista de Noticias</h1>
         <a href="{{ route('noticias.create') }}" class="btn btn-primary mb-3">Crear Noticia</a>
-        
+
         @if(session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
             </div>
         @endif
 
-        <div class="row">
-            @foreach($noticias as $noticia)
-                <div class="col-md-4">
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ $noticia->titulo }}</h5>
-                            <p class="card-text">{{ $noticia->contenido }}</p>
-                            <p><strong>Autor:</strong> {{ $noticia->autor }}</p>
-                            <p><strong>Fecha de Publicación:</strong> {{ $noticia->fecha_publicacion ? $noticia->fecha_publicacion->format('d/m/Y') : 'Sin fecha' }}</p>
-                            <a href="{{ route('noticias.edit', $noticia->id) }}" class="btn btn-warning">Editar</a>
-                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal{{ $noticia->id }}">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Título</th>
+                    <th scope="col">Autor</th>
+                    <th scope="col">Fecha de Publicación</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($noticias as $noticia)
+                    <tr>
+                        <td>{{ $noticia->titulo }}</td>
+                        <td>{{ $noticia->autor }}</td>
+                        <td>{{ $noticia->fecha_publicacion }}</td>
+                        <td>
+                            <a href="{{ route('noticias.edit', $noticia->id) }}" class="btn btn-warning btn-sm">Editar</a>
+                            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal{{ $noticia->id }}">
                                 Eliminar
                             </button>
 
-                            <!-- Modal de confirmación -->
                             <div class="modal fade" id="confirmDeleteModal{{ $noticia->id }}" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
@@ -45,10 +51,10 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            @endforeach
-        </div>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
     </div>
 </x-layout>
