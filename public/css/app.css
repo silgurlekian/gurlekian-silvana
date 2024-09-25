@@ -105,7 +105,7 @@ section {
     width: 100%;
 }
 
-
+.card-img-producto,
 .card-img-top {
     margin: auto;
     max-height: 200px;
@@ -259,15 +259,6 @@ form .d-flex {
 }
 
 @media screen and (min-width:640px) {
-    .ellipsis {
-        display: -webkit-box;
-        -webkit-line-clamp: 3;
-        -webkit-box-orient: vertical;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        line-height: 1.5;
-    }
-
     form .d-flex {
         flex-direction: row;
     }

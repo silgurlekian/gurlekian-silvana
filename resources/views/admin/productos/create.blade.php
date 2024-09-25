@@ -12,7 +12,7 @@
             </div>
         @endif
 
-        <form action="{{ route('admin.productos.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('admin.productos.store') }}" method="POST" enctype="multipart/form-data">ß
             @csrf
             <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre del Producto</label>
@@ -39,7 +39,8 @@
             </div>
             <div class="mb-3">
                 <label for="cantidad" class="form-label">Cantidad</label>
-                <input type="text" class="form-control" id="cantidad" name="cantidad" placeholder="cantidad" required>
+                <input type="text" class="form-control" id="cantidad" name="cantidad" placeholder="cantidad"
+                    required>
             </div>
             <div class="mb-3">
                 <label for="imagen" class="form-label">Imagen del Producto</label>

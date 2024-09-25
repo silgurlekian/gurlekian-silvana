@@ -14,4 +14,9 @@ class ProductoController extends Controller
         return view('productos.index', compact('productos'));
     }
 
+    public function show($id)
+    {
+        $producto = Producto::findOrFail($id); // Obtiene el producto por ID
+        return view('productos.show', compact('producto')); // Devuelve la vista con el producto
+    }
 }

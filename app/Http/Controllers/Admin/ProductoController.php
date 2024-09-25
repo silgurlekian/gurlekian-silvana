@@ -28,15 +28,15 @@ class ProductoController extends Controller
             'bodega' => 'required|string|max:255',
             'precio' => 'required|numeric',
             'cantidad' => 'required|integer',
-            'imagen' => 'nullable|image|mimes:webp,jpeg,png,jpg,gif',
+            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048', // Validación de imagen
         ]);
 
-        $producto = new Producto($request->all());
+        $producto = new Producto($request->except('imagen')); // Excluir imagen de la asignación masiva
 
         if ($request->hasFile('imagen')) {
             $nombreImagen = time() . '.' . $request->file('imagen')->getClientOriginalExtension();
-            $request->file('imagen')->move(public_path('images'), $nombreImagen);
-            $producto->imagen = 'images/' . $nombreImagen;
+            $request->file('imagen')->move(public_path('images/vinos'), $nombreImagen);
+            $producto->imagen = 'images/vinos/' . $nombreImagen; // Guarda la ruta de la imagen
         }
 
         $producto->save();
@@ -59,7 +59,7 @@ class ProductoController extends Controller
             'bodega' => 'required|string|max:255',
             'precio' => 'required|numeric',
             'cantidad' => 'required|integer',
-            'imagen' => 'nullable|image|mimes:webp,jpeg,png,jpg,gif',
+            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048', // Validación de imagen
         ]);
 
         $producto = Producto::findOrFail($id);
@@ -71,21 +71,21 @@ class ProductoController extends Controller
         $producto->cantidad = $request->cantidad;
 
         if ($request->hasFile('imagen')) {
-            // Eliminar la imagen anterior si existe
+            // Borrar la imagen antigua si es necesario
             if ($producto->imagen) {
                 unlink(public_path($producto->imagen));
             }
-            // Manejo de la nueva imagen
-            $imagen = $request->file('imagen');
-            $nombreImagen = time() . '.' . $imagen->getClientOriginalExtension();
-            $imagen->move(public_path('images'), $nombreImagen);
-            $producto->imagen = 'images/' . $nombreImagen;
+
+            $nombreImagen = time() . '.' . $request->file('imagen')->getClientOriginalExtension();
+            $request->file('imagen')->move(public_path('images/vinos'), $nombreImagen);
+            $producto->imagen = 'images/vinos/' . $nombreImagen; // Guarda la nueva ruta de la imagen
         }
 
         $producto->save();
 
         return redirect()->route('admin.productos.index')->with('success', 'Producto actualizado exitosamente.');
     }
+
 
     public function destroy($id)
     {

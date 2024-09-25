@@ -17,6 +17,8 @@ Auth::routes();
 
 // Rutas públicas para productos y noticias
 Route::get('/productos', [ProductoController::class, 'index'])->name('productos.index');
+Route::get('/productos/{id}', [ProductoController::class, 'show'])->name('productos.show');
+
 Route::get('/noticias', [NoticiaController::class, 'index'])->name('noticias.index');
 route::get('/noticias/{id}', [NoticiaController::class, 'show'])->name('noticias.show');
 
