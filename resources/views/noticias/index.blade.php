@@ -1,17 +1,23 @@
 <x-layout>
     <div class="container">
-        <h1 class="my-4">Noticias</h1>
+        <h1 class="my-4 text-center">Noticias</h1>
         <div class="row">
             @foreach ($noticias as $noticia)
-                <div class="col-md-6">
-                    <div class="card mb-4 shadow-sm">
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow-sm border-light">
+                        @if ($noticia->imagen)
+                            <img src="{{ asset($noticia->imagen) }}" class="card-img-top" alt="Imagen de la noticia">
+                        @endif
                         <div class="card-body">
-                            @if ($noticia->imagen)
-                                <img src="{{ asset($noticia->imagen) }}" class="card-img-top" alt="Imagen de la noticia">
-                            @endif
                             <h5 class="card-title">{{ $noticia->titulo }}</h5>
-                            <p class="card-text">{{ $noticia->contenido }}</p>
+                            <p class="card-text card-description">
+                                {{ \Illuminate\Support\Str::limit($noticia->contenido, 100) }}
+                                @if (strlen($noticia->contenido) > 100)
+                                    <span>...</span>
+                                @endif
+                            </p>
                             <p class="card-text"><strong>Autor:</strong> {{ $noticia->autor }}</p>
+                            <a href="{{ route('noticias.show', $noticia->id) }}" class="btn btn-primary">Leer más</a>
                         </div>
                     </div>
                 </div>
