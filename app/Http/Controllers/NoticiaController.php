@@ -30,13 +30,14 @@ class NoticiaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'titulo' => 'required',
-            'contenido' => 'required',
-            'autor' => 'required',
+            'titulo' => 'required|string|max:255',
+            'contenido' => 'required|string',
+            'autor' => 'required|string|max:255',
+            'fecha_publicacion' => 'nullable|date',
         ]);
 
         Noticia::create($request->all());
-        return redirect()->route('noticias.index')->with('success', 'Noticia creada correctamente.');
+        return redirect()->route('noticias.index')->with('success', 'Noticia creada con éxito.');
     }
 
     /**
@@ -50,24 +51,33 @@ class NoticiaController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Noticia $noticia)
     {
-        //
+        return view('noticias.edit', compact('noticia'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Noticia $noticia)
     {
-        //
+        $request->validate([
+            'titulo' => 'required|string|max:255',
+            'contenido' => 'required|string',
+            'autor' => 'required|string|max:255',
+            'fecha_publicacion' => 'nullable|date',
+        ]);
+
+        $noticia->update($request->all());
+        return redirect()->route('noticias.index')->with('success', 'Noticia actualizada con éxito.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Noticia $noticia)
     {
-        //
+        $noticia->delete();
+        return redirect()->route('noticias.index')->with('success', 'Noticia eliminada con éxito.');
     }
 }

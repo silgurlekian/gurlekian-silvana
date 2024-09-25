@@ -34,7 +34,7 @@
                         </li>
 
                         <li class="nav-item {{ request()->is('noticias') ? 'active' : '' }}">
-                            <a class="nav-link" href="{{ route('noticias.index') }}">Productos</a>
+                            <a class="nav-link" href="{{ route('noticias.index') }}">Noticias</a>
                         </li>
 
                         @auth
