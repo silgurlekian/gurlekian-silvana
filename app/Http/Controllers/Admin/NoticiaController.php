@@ -24,9 +24,20 @@ class NoticiaController extends Controller
         $request->validate([
             'titulo' => 'required|string|max:255',
             'contenido' => 'required|string',
+            'autor' => 'required|string|max:255',
+            'fecha_publicacion' => 'nullable|date',
+            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048', // Validación de imagen
         ]);
 
         $noticia = new Noticia($request->all());
+
+        // Manejo de la imagen
+        if ($request->hasFile('imagen')) {
+            $nombreImagen = time() . '.' . $request->file('imagen')->getClientOriginalExtension();
+            $request->file('imagen')->move(public_path('images/noticias'), $nombreImagen);
+            $noticia->imagen = 'images/noticias/' . $nombreImagen;
+        }
+
         $noticia->save();
 
         return redirect()->route('admin.noticias.index')->with('success', 'Noticia creada exitosamente.');
@@ -43,11 +54,29 @@ class NoticiaController extends Controller
         $request->validate([
             'titulo' => 'required|string|max:255',
             'contenido' => 'required|string',
+            'autor' => 'required|string|max:255',
+            'fecha_publicacion' => 'nullable|date', // Permitir que la fecha sea nula
+            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048', // Validación de imagen
         ]);
 
         $noticia = Noticia::findOrFail($id);
         $noticia->titulo = $request->titulo;
         $noticia->contenido = $request->contenido;
+        $noticia->autor = $request->autor;
+        $noticia->fecha_publicacion = $request->fecha_publicacion;
+
+        // Manejo de la nueva imagen
+        if ($request->hasFile('imagen')) {
+            // Eliminar la imagen anterior si existe
+            if ($noticia->imagen) {
+                unlink(public_path($noticia->imagen)); // Eliminar archivo de la carpeta
+            }
+
+            $nombreImagen = time() . '.' . $request->file('imagen')->getClientOriginalExtension();
+            $request->file('imagen')->move(public_path('images/noticias'), $nombreImagen);
+            $noticia->imagen = 'images/noticias/' . $nombreImagen;
+        }
+
         $noticia->save();
 
         return redirect()->route('admin.noticias.index')->with('success', 'Noticia actualizada exitosamente.');
@@ -56,6 +85,11 @@ class NoticiaController extends Controller
     public function destroy($id)
     {
         $noticia = Noticia::findOrFail($id);
+        // Eliminar la imagen antes de borrar la noticia
+        if ($noticia->imagen) {
+            unlink(public_path($noticia->imagen)); // Eliminar archivo de la carpeta
+        }
+        
         $noticia->delete();
 
         return redirect()->route('admin.noticias.index')->with('success', 'Noticia eliminada exitosamente.');

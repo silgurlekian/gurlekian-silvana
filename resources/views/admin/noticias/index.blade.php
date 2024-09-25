@@ -1,7 +1,7 @@
 <x-layout>
     <div class="container">
         <h1 class="my-4">Lista de Noticias</h1>
-        <a href="{{ route('noticias.create') }}" class="btn btn-primary mb-3">Crear Noticia</a>
+        <a href="{{ route('admin.noticias.create') }}" class="btn btn-primary mb-3">Crear Noticia</a>
 
         @if(session('success'))
             <div class="alert alert-success">
@@ -12,6 +12,7 @@
         <table class="table table-striped">
             <thead>
                 <tr>
+                    <th scope="col">Imagen</th>
                     <th scope="col">Título</th>
                     <th scope="col">Autor</th>
                     <th scope="col">Fecha de Publicación</th>
@@ -21,15 +22,29 @@
             <tbody>
                 @foreach($noticias as $noticia)
                     <tr>
+                        <td>
+                            @if($noticia->imagen)
+                                <img src="{{ asset($noticia->imagen) }}" alt="Imagen de la noticia" style="width: 100px; height: auto;">
+                            @else
+                                <span class="text-muted">Sin imagen</span>
+                            @endif
+                        </td>
                         <td>{{ $noticia->titulo }}</td>
                         <td>{{ $noticia->autor }}</td>
-                        <td>{{ $noticia->fecha_publicacion }}</td>
                         <td>
-                            <a href="{{ route('noticias.edit', $noticia->id) }}" class="btn btn-warning btn-sm">Editar</a>
+                            @if($noticia->fecha_publicacion)
+                                {{ date('d/m/Y', strtotime($noticia->fecha_publicacion)) }}
+                            @else
+                                <span class="text-muted">No especificada</span>
+                            @endif
+                        </td>
+                        <td>
+                            <a href="{{ route('admin.noticias.edit', $noticia->id) }}" class="btn btn-warning btn-sm">Editar</a>
                             <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal{{ $noticia->id }}">
                                 Eliminar
                             </button>
 
+                            <!-- Modal de confirmación de eliminación -->
                             <div class="modal fade" id="confirmDeleteModal{{ $noticia->id }}" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
@@ -42,7 +57,7 @@
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                            <form action="{{ route('noticias.destroy', $noticia->id) }}" method="POST" class="d-inline">
+                                            <form action="{{ route('admin.noticias.destroy', $noticia->id) }}" method="POST" class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger">Eliminar</button>

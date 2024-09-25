@@ -28,7 +28,7 @@ class ProductoController extends Controller
             'bodega' => 'required|string|max:255',
             'precio' => 'required|numeric',
             'cantidad' => 'required|integer',
-            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'imagen' => 'nullable|image|mimes:webp,jpeg,png,jpg,gif',
         ]);
 
         $producto = new Producto($request->all());
@@ -59,7 +59,7 @@ class ProductoController extends Controller
             'bodega' => 'required|string|max:255',
             'precio' => 'required|numeric',
             'cantidad' => 'required|integer',
-            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'imagen' => 'nullable|image|mimes:webp,jpeg,png,jpg,gif',
         ]);
 
         $producto = Producto::findOrFail($id);
@@ -71,10 +71,11 @@ class ProductoController extends Controller
         $producto->cantidad = $request->cantidad;
 
         if ($request->hasFile('imagen')) {
-            // Manejo de la imagen, si se sube una nueva
+            // Eliminar la imagen anterior si existe
             if ($producto->imagen) {
                 unlink(public_path($producto->imagen));
             }
+            // Manejo de la nueva imagen
             $imagen = $request->file('imagen');
             $nombreImagen = time() . '.' . $imagen->getClientOriginalExtension();
             $imagen->move(public_path('images'), $nombreImagen);
@@ -85,7 +86,6 @@ class ProductoController extends Controller
 
         return redirect()->route('admin.productos.index')->with('success', 'Producto actualizado exitosamente.');
     }
-
 
     public function destroy($id)
     {
