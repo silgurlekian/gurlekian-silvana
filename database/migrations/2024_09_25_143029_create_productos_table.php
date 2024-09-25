@@ -17,7 +17,7 @@ return new class extends Migration
             $table->text('descripcion');
             $table->string('variedad');
             $table->string('bodega');
-            $table->decimal('precio', 8, 2);
+            $table->decimal('precio', 10, 2);
             $table->integer('cantidad');
             $table->string('imagen')->nullable();
             $table->timestamps();
