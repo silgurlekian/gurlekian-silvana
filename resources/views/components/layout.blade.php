@@ -18,55 +18,35 @@
                     <img src="{{ asset('images/logo.png') }}" alt="Logo de Cepante" class="me-2">
                     <h1 class="logo">Cepante</h1>
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false"
-                    aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item {{ request()->routeIs('home') ? 'active' : '' }}">
-                            <a class="nav-link" href="{{ route('home') }}">Inicio</a>
-                        </li>
-                        <li class="nav-item {{ request()->is('productos.index') ? 'active' : '' }}">
-                            <a class="nav-link" href="{{ route('productos.index') }}">Productos</a>
-                        </li>
-                        <li class="nav-item {{ request()->is('noticias.index') ? 'active' : '' }}">
-                            <a class="nav-link" href="{{ route('noticias.index') }}">Noticias</a>
-                        </li>
-
+                        <x-nav-link href="{{ route('home') }}" :active="request()->routeIs('home')">Inicio</x-nav-link>
+                        <x-nav-link href="{{ route('productos.index') }}" :active="request()->is('productos.index')">Productos</x-nav-link>
+                        <x-nav-link href="{{ route('noticias.index') }}" :active="request()->is('noticias.index')">Noticias</x-nav-link>
+    
                         @auth
-                            <li class="nav-item {{ request()->routeIs('admin.productos.*') ? 'active' : '' }}">
-                                <a class="nav-link"
-                                    href="{{ route('admin.productos.index', ['admin' => auth()->user()->id]) }}">Administrar
-                                    Productos</a>
-                            </li>
-                            <li class="nav-item {{ request()->routeIs('admin.noticias.*') ? 'active' : '' }}">
-                                <a class="nav-link"
-                                    href="{{ route('admin.noticias.index', ['admin' => auth()->user()->id]) }}">Administrar
-                                    Noticias</a>
-                            </li>
+                            <x-nav-link href="{{ route('admin.productos.index', ['admin' => auth()->user()->id]) }}" :active="request()->routeIs('admin.productos.*')">Administrar Productos</x-nav-link>
+                            <x-nav-link href="{{ route('admin.noticias.index', ['admin' => auth()->user()->id]) }}" :active="request()->routeIs('admin.noticias.*')">Administrar Noticias</x-nav-link>
                             <li class="nav-item">
-                                <a href="{{ route('logout') }}"
-                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-                                    class="nav-link">Cerrar sesión</a>
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                    style="display: none;">
+                                <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="nav-link">Cerrar sesión</a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                     @csrf
                                 </form>
                             </li>
                         @endauth
-
+    
                         @guest
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">Iniciar sesión</a>
-                            </li>
+                            <x-nav-link href="{{ route('login') }}">Iniciar sesión</x-nav-link>
                         @endguest
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
+    
 
     <main>
         {{ $slot }}
