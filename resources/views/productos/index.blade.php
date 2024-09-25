@@ -1,6 +1,6 @@
 <x-layout>
     <div class="container">
-        <h1 class="my-4">Nuestros Productos</h1>
+        <h2 class="h1 my-4">Nuestros Productos</h2>
         <div class="row">
             @foreach($productos as $producto)
                 <div class="col-md-4">
