@@ -1,8 +1,9 @@
 <x-layout>
-    <div class="container">
-        <h1 class="my-4">Crear Noticia</h1>
+    <x-slot:title>Crear noticia</x-slot:title>
 
-        {{-- El formulario debe permitir la subida de archivos con "enctype" --}}
+    <div class="container">
+        <h2 class="h1 my-4">Crear Noticia</h2>
+
         <form action="{{ route('admin.noticias.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="mb-3">
@@ -11,7 +12,7 @@
             </div>
             <div class="mb-3">
                 <label for="contenido" class="form-label">Contenido</label>
-                <textarea class="form-control" id="contenido" name="contenido" required></textarea>
+                <textarea rows="10" class="form-control" id="contenido" name="contenido" required></textarea>
             </div>
             <div class="mb-3">
                 <label for="autor" class="form-label">Autor</label>

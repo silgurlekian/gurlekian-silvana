@@ -1,6 +1,8 @@
 <x-layout>
+    <x-slot:title>Editar {{$producto->nombre}}</x-slot:title>
+
     <div class="container">
-        <h1 class="my-4">Editar Producto</h1>
+        <h2 class="h1 my-4">Editar {{$producto->nombre}}</h2>
 
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -21,7 +23,7 @@
             </div>
             <div class="mb-3">
                 <label for="descripcion" class="form-label">Descripción</label>
-                <textarea class="form-control" id="descripcion" name="descripcion" required>{{ old('descripcion', $producto->descripcion) }}</textarea>
+                <textarea rows="10" class="form-control" id="descripcion" name="descripcion" required>{{ old('descripcion', $producto->descripcion) }}</textarea>
             </div>
             <div class="mb-3">
                 <label for="variedad" class="form-label">Variedad</label>

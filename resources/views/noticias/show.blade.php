@@ -1,6 +1,8 @@
 <x-layout>
+    <x-slot:title>{{ $noticia->titulo }}</x-slot:title>
+
     <div class="container my-5">
-        <h1 class="my-4">{{ $noticia->titulo }}</h1>
+        <h2 class="h1 my-4">{{ $noticia->titulo }}</h2>
         @if ($noticia->imagen)
             <div class="banner-imagen">
                 <img src="{{ asset($noticia->imagen) }}" class="img-fluid" alt="Imagen de la noticia">

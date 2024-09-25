@@ -1,6 +1,8 @@
 <x-layout>
+    <x-slot:title>Crear vino</x-slot:title>
+
     <div class="container">
-        <h1 class="my-4">Crear Producto</h1>
+        <h2 class="h1my-4">Crear Producto</h2>
 
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -12,7 +14,7 @@
             </div>
         @endif
 
-        <form action="{{ route('admin.productos.store') }}" method="POST" enctype="multipart/form-data">ß
+        <form action="{{ route('admin.productos.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre del Producto</label>
@@ -21,7 +23,7 @@
             </div>
             <div class="mb-3">
                 <label for="descripcion" class="form-label">Descripción</label>
-                <textarea class="form-control" id="descripcion" name="descripcion" placeholder="Descripción" required></textarea>
+                <textarea rows="10" class="form-control" id="descripcion" name="descripcion" placeholder="Descripción" required></textarea>
             </div>
             <div class="mb-3">
                 <label for="variedad" class="form-label">Variedad</label>

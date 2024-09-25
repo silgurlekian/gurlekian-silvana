@@ -1,4 +1,6 @@
 <x-layout>
+    <x-slot:title>Productos</x-slot:title>
+
     <div class="container">
         <h2 class="h1 my-4">Nuestros Productos</h2>
         <div class="row">

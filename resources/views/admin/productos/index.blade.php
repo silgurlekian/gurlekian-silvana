@@ -1,6 +1,8 @@
 <x-layout>
+    <x-slot:title>Administrar productos</x-slot:title>
+
     <div class="container">
-        <h1 class="my-4">Lista de Productos</h1>
+        <h2 class="h1 my-4">Lista de Productos</h2>
         <a href="{{ route('admin.productos.create') }}" class="btn btn-primary mb-3">Crear Producto</a>
 
         @if (session('success'))

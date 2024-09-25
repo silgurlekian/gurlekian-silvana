@@ -1,4 +1,6 @@
 <x-layout>
+    <x-slot:title>{{ $producto->nombre }}</x-slot:title>
+
     <div class="container">
         <div class="row">
             <div class="col-xs-12 col-sm-3">

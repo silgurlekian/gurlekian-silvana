@@ -1,6 +1,8 @@
 <x-layout>
+    <x-slot:title>Administrar noticias</x-slot:title>
+
     <div class="container">
-        <h1 class="my-4">Lista de Noticias</h1>
+        <h2 class="h1 my-4">Lista de Noticias</h2>
         <a href="{{ route('admin.noticias.create') }}" class="btn btn-primary mb-3">Crear Noticia</a>
 
         @if(session('success'))

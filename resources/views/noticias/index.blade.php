@@ -1,4 +1,6 @@
 <x-layout>
+    <x-slot:title>Noticias</x-slot:title>
+
     <div class="container">
         <h2 class="h1 my-4 text-center">Noticias</h2>
         <div class="row">
