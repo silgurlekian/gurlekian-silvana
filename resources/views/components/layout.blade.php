@@ -28,14 +28,12 @@
                         <li class="nav-item {{ request()->routeIs('home') ? 'active' : '' }}">
                             <a class="nav-link" href="{{ route('home') }}">Inicio</a>
                         </li>
-                        @guest
-                            <li class="nav-item {{ request()->is('productos.index') ? 'active' : '' }}">
-                                <a class="nav-link" href="{{ route('productos.index') }}">Productos</a>
-                            </li>
-                            <li class="nav-item {{ request()->is('noticias.index') ? 'active' : '' }}">
-                                <a class="nav-link" href="{{ route('noticias.index') }}">Noticias</a>
-                            </li>
-                        @endguest
+                        <li class="nav-item {{ request()->is('productos.index') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('productos.index') }}">Productos</a>
+                        </li>
+                        <li class="nav-item {{ request()->is('noticias.index') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('noticias.index') }}">Noticias</a>
+                        </li>
 
                         @auth
                             <li class="nav-item {{ request()->routeIs('admin.productos.*') ? 'active' : '' }}">
