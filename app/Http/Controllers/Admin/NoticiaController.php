@@ -8,6 +8,24 @@ use Illuminate\Http\Request;
 
 class NoticiaController extends Controller
 {
+    private array $validationRules = [
+        'titulo' => 'required|string|max:255',
+        'contenido' => 'required|string',
+        'autor' => 'required|string|max:255',
+        'fecha_publicacion' => 'nullable|date',
+        'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+    ];
+
+    private array $validationMessages = [
+        'titulo.required' => 'El título debe tener un valor.',
+        'titulo.min' => 'El título debe al menos :min caracteres.',
+        'contenido.required' => 'El contenido debe tener un valor.',
+        'autor.required' => 'El autor debe tener un valor.',
+        'precio.required' => 'El precio debe tener un valor.',
+        'precio.numeric' => 'El precio debe ser un número.',
+        'fecha_publicacion.required' => 'La fecha de publicación debe tener un valor.',
+    ];
+
     public function index()
     {
         $noticias = Noticia::all();
@@ -21,13 +39,15 @@ class NoticiaController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'titulo' => 'required|string|max:255',
-            'contenido' => 'required|string',
-            'autor' => 'required|string|max:255',
-            'fecha_publicacion' => 'nullable|date',
-            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048', // Validación de imagen
-        ]);
+        $request->validate($this->validationRules, $this->validationMessages);
+        // $request->validate([
+        //     'titulo' => 'required|string|max:255',
+        //     'contenido' => 'required|string',
+        //     'autor' => 'required|string|max:255',
+        //     'fecha_publicacion' => 'nullable|date',
+        //     'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+        // ]);
+
 
         $noticia = new Noticia($request->all());
 
@@ -51,13 +71,7 @@ class NoticiaController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'titulo' => 'required|string|max:255',
-            'contenido' => 'required|string',
-            'autor' => 'required|string|max:255',
-            'fecha_publicacion' => 'nullable|date', // Permitir que la fecha sea nula
-            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048', // Validación de imagen
-        ]);
+        $request->validate($this->validationRules, $this->validationMessages);
 
         $noticia = Noticia::findOrFail($id);
         $noticia->titulo = $request->titulo;
@@ -89,7 +103,7 @@ class NoticiaController extends Controller
         if ($noticia->imagen) {
             unlink(public_path($noticia->imagen)); // Eliminar archivo de la carpeta
         }
-        
+
         $noticia->delete();
 
         return redirect()->route('admin.noticias.index')->with('success', 'Noticia eliminada exitosamente.');

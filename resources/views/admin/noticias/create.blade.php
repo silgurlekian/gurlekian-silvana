@@ -8,23 +8,38 @@
             @csrf
             <div class="mb-3">
                 <label for="titulo" class="form-label">Título</label>
-                <input type="text" class="form-control" id="titulo" name="titulo" required>
+                <input type="text" class="form-control" id="titulo" name="titulo">
+                @error('titulo')
+                    <div class="text-danger" id="error-title">{{ $message }}</div>
+                @enderror
             </div>
             <div class="mb-3">
                 <label for="contenido" class="form-label">Contenido</label>
-                <textarea rows="10" class="form-control" id="contenido" name="contenido" required></textarea>
+                <textarea rows="10" class="form-control" id="contenido" name="contenido"></textarea>
+                @error('contenido')
+                    <div class="text-danger" id="error-contenido">{{ $message }}</div>
+                @enderror
             </div>
             <div class="mb-3">
                 <label for="autor" class="form-label">Autor</label>
-                <input type="text" class="form-control" id="autor" name="autor" required>
+                <input type="text" class="form-control" id="autor" name="autor">
+                @error('autor')
+                    <div class="text-danger" id="error-autor">{{ $message }}</div>
+                @enderror
             </div>
             <div class="mb-3">
                 <label for="fecha_publicacion" class="form-label">Fecha de Publicación</label>
                 <input type="date" class="form-control" id="fecha_publicacion" name="fecha_publicacion">
+                @error('fecha_publicacion')
+                    <div class="text-danger" id="error-fecha_publicacion">{{ $message }}</div>
+                @enderror
             </div>
             <div class="mb-3">
                 <label for="imagen" class="form-label">Imagen</label>
                 <input type="file" class="form-control" id="imagen" name="imagen" accept="image/*">
+                @error('imagen')
+                    <div class="text-danger" id="error-imagen">{{ $message }}</div>
+                @enderror
             </div>
             <button type="submit" class="btn btn-primary">Crear</button>
         </form>
