@@ -8,6 +8,30 @@ use Illuminate\Http\Request;
 
 class ProductoController extends Controller
 {
+    private array $validationRules = [
+        'nombre' => 'required|string|max:255',
+        'descripcion' => 'required|string',
+        'variedad' => 'required|string|max:255',
+        'bodega' => 'required|string|max:255',
+        'precio' => 'required|numeric',
+        'cantidad' => 'required|integer',
+        'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048', // Validación de imagen
+    ];
+
+    private array $validationMessages = [
+        'nombre.required' => 'El nombre debe tener un valor.',
+        'nombre.min' => 'El nombre debe al menos :min caracteres.',
+        'descripcion.required' => 'La descripción debe tener un valor.',
+        'variedad.required' => 'La variedad debe tener un valor.',
+        'variedad.min' => 'La variedad debe al menos :min caracteres.',
+        'bodega.required' => 'La bodega debe tener un valor.',
+        'bodega.min' => 'La bodega debe al menos :min caracteres.',
+        'precio.required' => 'El precio debe tener un valor.',
+        'precio.numeric' => 'El precio debe ser un número.',
+        'cantidad.required' => 'La cantidad debe tener un valor.',
+        'fecha_publicacion.required' => 'La fecha de publicación debe tener un valor.',
+    ];
+
     public function index()
     {
         $productos = Producto::all();
@@ -21,22 +45,14 @@ class ProductoController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'nombre' => 'required|string|max:255',
-            'descripcion' => 'required|string',
-            'variedad' => 'required|string|max:255',
-            'bodega' => 'required|string|max:255',
-            'precio' => 'required|numeric',
-            'cantidad' => 'required|integer',
-            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048', // Validación de imagen
-        ]);
+        $request->validate($this->validationRules, $this->validationMessages);
 
-        $producto = new Producto($request->except('imagen')); // Excluir imagen de la asignación masiva
+        $producto = new Producto($request->except('imagen')); 
 
         if ($request->hasFile('imagen')) {
             $nombreImagen = time() . '.' . $request->file('imagen')->getClientOriginalExtension();
             $request->file('imagen')->move(public_path('images/vinos'), $nombreImagen);
-            $producto->imagen = 'images/vinos/' . $nombreImagen; // Guarda la ruta de la imagen
+            $producto->imagen = 'images/vinos/' . $nombreImagen; 
         }
 
         $producto->save();
@@ -52,15 +68,7 @@ class ProductoController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'nombre' => 'required|string|max:255',
-            'descripcion' => 'required|string',
-            'variedad' => 'required|string|max:255',
-            'bodega' => 'required|string|max:255',
-            'precio' => 'required|numeric',
-            'cantidad' => 'required|integer',
-            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048', // Validación de imagen
-        ]);
+        $request->validate($this->validationRules, $this->validationMessages);
 
         $producto = Producto::findOrFail($id);
         $producto->nombre = $request->nombre;
@@ -71,14 +79,13 @@ class ProductoController extends Controller
         $producto->cantidad = $request->cantidad;
 
         if ($request->hasFile('imagen')) {
-            // Borrar la imagen antigua si es necesario
             if ($producto->imagen) {
                 unlink(public_path($producto->imagen));
             }
 
             $nombreImagen = time() . '.' . $request->file('imagen')->getClientOriginalExtension();
             $request->file('imagen')->move(public_path('images/vinos'), $nombreImagen);
-            $producto->imagen = 'images/vinos/' . $nombreImagen; // Guarda la nueva ruta de la imagen
+            $producto->imagen = 'images/vinos/' . $nombreImagen; 
         }
 
         $producto->save();

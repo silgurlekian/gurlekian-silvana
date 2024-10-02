@@ -40,14 +40,6 @@ class NoticiaController extends Controller
     public function store(Request $request)
     {
         $request->validate($this->validationRules, $this->validationMessages);
-        // $request->validate([
-        //     'titulo' => 'required|string|max:255',
-        //     'contenido' => 'required|string',
-        //     'autor' => 'required|string|max:255',
-        //     'fecha_publicacion' => 'nullable|date',
-        //     'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
-        // ]);
-
 
         $noticia = new Noticia($request->all());
 
@@ -79,11 +71,10 @@ class NoticiaController extends Controller
         $noticia->autor = $request->autor;
         $noticia->fecha_publicacion = $request->fecha_publicacion;
 
-        // Manejo de la nueva imagen
         if ($request->hasFile('imagen')) {
             // Eliminar la imagen anterior si existe
             if ($noticia->imagen) {
-                unlink(public_path($noticia->imagen)); // Eliminar archivo de la carpeta
+                unlink(public_path($noticia->imagen)); 
             }
 
             $nombreImagen = time() . '.' . $request->file('imagen')->getClientOriginalExtension();
@@ -101,7 +92,7 @@ class NoticiaController extends Controller
         $noticia = Noticia::findOrFail($id);
         // Eliminar la imagen antes de borrar la noticia
         if ($noticia->imagen) {
-            unlink(public_path($noticia->imagen)); // Eliminar archivo de la carpeta
+            unlink(public_path($noticia->imagen)); 
         }
 
         $noticia->delete();
