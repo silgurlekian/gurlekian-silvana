@@ -9,6 +9,8 @@
             <div class="col-xs-12 col-sm-9">
                 <h2 class="h1">{{ $producto->nombre }}</h2>
                 <p>{{ $producto->descripcion }}</p>
+
+                <p class="card-text precio"><strong>$ {{ $producto->precio }}</strong></p>
             </div>
         </div>
 
