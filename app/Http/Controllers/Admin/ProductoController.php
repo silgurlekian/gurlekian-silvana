@@ -15,7 +15,7 @@ class ProductoController extends Controller
         'bodega' => 'required|string|max:255',
         'precio' => 'required|numeric',
         'cantidad' => 'required|integer',
-        'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048', // Validación de imagen
+        'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:4096',
     ];
 
     private array $validationMessages = [
@@ -47,12 +47,20 @@ class ProductoController extends Controller
     {
         $request->validate($this->validationRules, $this->validationMessages);
 
-        $producto = new Producto($request->except('imagen')); 
+        $producto = new Producto($request->except('imagen'));
 
         if ($request->hasFile('imagen')) {
-            $nombreImagen = time() . '.' . $request->file('imagen')->getClientOriginalExtension();
-            $request->file('imagen')->move(public_path('images/vinos'), $nombreImagen);
-            $producto->imagen = 'images/vinos/' . $nombreImagen; 
+            try {
+                if ($producto->imagen && file_exists(public_path($producto->imagen))) {
+                    unlink(public_path($producto->imagen));
+                }
+
+                $nombreImagen = time() . '.' . $request->file('imagen')->getClientOriginalExtension();
+                $request->file('imagen')->move(public_path('images/vinos'), $nombreImagen);
+                $producto->imagen = 'images/vinos/' . $nombreImagen;
+            } catch (\Exception $e) {
+                return redirect()->back()->withErrors(['imagen' => 'Error al subir la imagen: ' . $e->getMessage()]);
+            }
         }
 
         $producto->save();
@@ -85,7 +93,7 @@ class ProductoController extends Controller
 
             $nombreImagen = time() . '.' . $request->file('imagen')->getClientOriginalExtension();
             $request->file('imagen')->move(public_path('images/vinos'), $nombreImagen);
-            $producto->imagen = 'images/vinos/' . $nombreImagen; 
+            $producto->imagen = 'images/vinos/' . $nombreImagen;
         }
 
         $producto->save();
