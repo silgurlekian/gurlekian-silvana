@@ -5,25 +5,21 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Noticia;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class NoticiaController extends Controller
 {
     private array $validationRules = [
         'titulo' => 'required|string|max:255',
         'contenido' => 'required|string',
-        'autor' => 'required|string|max:255',
-        'fecha_publicacion' => 'nullable|date',
         'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+        'descripcion_imagen' => 'nullable|string|max:255',
     ];
 
     private array $validationMessages = [
         'titulo.required' => 'El título debe tener un valor.',
-        'titulo.min' => 'El título debe al menos :min caracteres.',
+        'titulo.min' => 'El título debe tener al menos :min caracteres.',
         'contenido.required' => 'El contenido debe tener un valor.',
-        'autor.required' => 'El autor debe tener un valor.',
-        'precio.required' => 'El precio debe tener un valor.',
-        'precio.numeric' => 'El precio debe ser un número.',
-        'fecha_publicacion.required' => 'La fecha de publicación debe tener un valor.',
     ];
 
     public function index()
@@ -41,13 +37,18 @@ class NoticiaController extends Controller
     {
         $request->validate($this->validationRules, $this->validationMessages);
 
-        $noticia = new Noticia($request->all());
+        $noticia = new Noticia();
+        $noticia->titulo = $request->titulo;
+        $noticia->contenido = $request->contenido;
+        $noticia->autor = Auth::user()->name;  // Asigna el usuario autenticado como autor
+        $noticia->fecha_publicacion = now(); // Establece la fecha de publicación actual
 
         // Manejo de la imagen
         if ($request->hasFile('imagen')) {
             $nombreImagen = time() . '.' . $request->file('imagen')->getClientOriginalExtension();
             $request->file('imagen')->move(public_path('images/noticias'), $nombreImagen);
             $noticia->imagen = 'images/noticias/' . $nombreImagen;
+            $noticia->descripcion_imagen = $request->descripcion_imagen; // Guarda la descripción de la imagen
         }
 
         $noticia->save();
@@ -68,18 +69,17 @@ class NoticiaController extends Controller
         $noticia = Noticia::findOrFail($id);
         $noticia->titulo = $request->titulo;
         $noticia->contenido = $request->contenido;
-        $noticia->autor = $request->autor;
-        $noticia->fecha_publicacion = $request->fecha_publicacion;
+        $noticia->fecha_publicacion = $request->fecha_publicacion ?? $noticia->fecha_publicacion;
 
         if ($request->hasFile('imagen')) {
-            // Eliminar la imagen anterior si existe
             if ($noticia->imagen) {
-                unlink(public_path($noticia->imagen)); 
+                unlink(public_path($noticia->imagen));
             }
 
             $nombreImagen = time() . '.' . $request->file('imagen')->getClientOriginalExtension();
             $request->file('imagen')->move(public_path('images/noticias'), $nombreImagen);
             $noticia->imagen = 'images/noticias/' . $nombreImagen;
+            $noticia->descripcion_imagen = $request->descripcion_imagen; // Actualiza la descripción de la imagen
         }
 
         $noticia->save();
@@ -90,9 +90,8 @@ class NoticiaController extends Controller
     public function destroy($id)
     {
         $noticia = Noticia::findOrFail($id);
-        // Eliminar la imagen antes de borrar la noticia
         if ($noticia->imagen) {
-            unlink(public_path($noticia->imagen)); 
+            unlink(public_path($noticia->imagen));
         }
 
         $noticia->delete();
