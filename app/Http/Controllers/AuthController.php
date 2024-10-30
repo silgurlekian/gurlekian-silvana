@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
+use App\Models\User;
 
 class AuthController extends Controller
 {
@@ -17,23 +15,28 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
+            'password' => 'required|string|min:6|confirmed',
+        ], [
+            'name.required' => 'Por favor, ingresa tu nombre.',
+            'email.required' => 'El correo electrónico es obligatorio.',
+            'email.email' => 'Por favor, ingresa un correo electrónico válido.',
+            'email.unique' => 'Este correo electrónico ya está en uso.',
+            'password.required' => 'La contraseña es obligatoria.',
+            'password.min' => 'La contraseña debe tener al menos :min caracteres.',
+            'password.confirmed' => 'Las contraseñas no coinciden.',
         ]);
-
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
 
         User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'password' => bcrypt($request->password),
         ]);
 
-        return redirect()->route('login')->with('success', 'Registro exitoso. Por favor, inicia sesión.');
+        // Mensaje de éxito
+        return redirect()->route('login')->with('success', 'Registro exitoso. Puedes iniciar sesión.');
     }
 
     public function showLoginForm()
@@ -43,25 +46,30 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        // Validación y autenticación
-        $credentials = $request->only('email', 'password');
+        $request->validate([
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6|confirmed',
+        ], [
+            'email.required' => 'El correo electrónico es obligatorio.',
+            'email.email' => 'Por favor, ingresa un correo electrónico válido.',
+            'email.unique' => 'Este correo electrónico ya está en uso.',
+            'password.required' => 'La contraseña es obligatoria.',
+            'password.min' => 'La contraseña debe tener al menos :min caracteres.',
+            'password.confirmed' => 'Las contraseñas no coinciden.',
+        ]);
 
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-            return redirect()->route('admin.usuarios.index');
+        if (Auth::attempt($request->only('email', 'password'))) {
+            // Mensaje de éxito
+            return redirect()->route('home')->with('success', 'Has iniciado sesión exitosamente.');
         }
 
-        return back()->withErrors([
-            'email' => 'Las credenciales proporcionadas no coinciden con nuestros registros.',
-        ]);
+        // Mensaje de error
+        return redirect()->back()->with('error', 'Credenciales incorrectas. Intenta de nuevo.');
     }
 
-    public function logout(Request $request)
+    public function logout()
     {
         Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return redirect('/login');
+        return redirect()->route('login')->with('success', 'Has cerrado sesión exitosamente.');
     }
 }
