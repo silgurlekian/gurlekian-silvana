@@ -23,7 +23,7 @@
                             <td>{{ $usuario->name }}</td>
                             <td>{{ $usuario->email }}</td>
                             <td>
-                                <a href="{{ route('admin.usuarios.show', $usuario->id) }}" class="btn btn-info">Ver
+                                <a href="{{ route('admin.usuarios.show', $usuario->id) }}" class="btn btn-primary">Ver
                                     Detalles</a>
                             </td>
                         </tr>

@@ -47,23 +47,18 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+            'email' => 'required|string|email|max:255',
+            'password' => 'required|string|min:6',
         ], [
             'email.required' => 'El correo electrónico es obligatorio.',
             'email.email' => 'Por favor, ingresa un correo electrónico válido.',
-            'email.unique' => 'Este correo electrónico ya está en uso.',
             'password.required' => 'La contraseña es obligatoria.',
-            'password.min' => 'La contraseña debe tener al menos :min caracteres.',
-            'password.confirmed' => 'Las contraseñas no coinciden.',
         ]);
 
         if (Auth::attempt($request->only('email', 'password'))) {
-            // Mensaje de éxito
             return redirect()->route('home')->with('success', 'Has iniciado sesión exitosamente.');
         }
 
-        // Mensaje de error
         return redirect()->back()->with('error', 'Credenciales incorrectas. Intenta de nuevo.');
     }
 
