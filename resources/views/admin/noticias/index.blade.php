@@ -46,12 +46,12 @@
                                 Eliminar
                             </button>
 
-                            <!-- Modal de confirmación de eliminación -->
+                            <!-- Modal de confirm∫ción de eliminación -->
                             <div class="modal fade" id="confirmDeleteModal{{ $noticia->id }}" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Eliminación</h5>
+                                            <h3 class="modal-title" id="confirmDeleteModalLabel">Confirmar Eliminación</h3>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">

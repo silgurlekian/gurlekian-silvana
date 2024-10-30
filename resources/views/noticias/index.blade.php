@@ -11,7 +11,7 @@
                             <img src="{{ asset($noticia->imagen) }}" class="card-img-top" alt="Imagen de la noticia">
                         @endif
                         <div class="card-body">
-                            <h5 class="card-title">{{ $noticia->titulo }}</h5>
+                            <h3 class="card-title">{{ $noticia->titulo }}</h3>
                             <p class="card-text card-description">
                                 {{ \Illuminate\Support\Str::limit($noticia->contenido, 100) }}
                                 @if (strlen($noticia->contenido) > 100)

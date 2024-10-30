@@ -9,10 +9,10 @@
                     <div class="card mb-4 shadow-sm">
                         <img src="{{ asset($producto->imagen) }}" class="card-img-producto" alt="{{ $producto->nombre }}">
                         <div class="card-body">
-                            <h5 class="card-title">{{ $producto->nombre }}</h5>
+                            <h3 class="card-title">{{ $producto->nombre }}</h3>
                             <p class="card-text">{{ $producto->descripcion }}</p>
                             <p class="card-text"><strong>Precio:</strong> ${{ $producto->precio }}</p>
-                            <a href="{{ route('productos.show', $producto->id) }}" class="btn btn-primary">Ver Detalle</a> <!-- Botón de ver detalle -->
+                            <a href="{{ route('productos.show', $producto->id) }}" class="btn btn-primary">Ver Detalle</a> 
                         </div>
                     </div>
                 </div>

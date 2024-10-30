@@ -2,7 +2,7 @@
     <x-slot:title>Editar {{ $noticia->titulo }}</x-slot:title>
 
     <div class="container">
-        <h1 class="my-4">Editar {{ $noticia->titulo }}</h1>
+        <h2 class="my-4">Editar {{ $noticia->titulo }}</h2>
 
         <form action="{{ route('admin.noticias.update', $noticia->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
