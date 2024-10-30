@@ -56,7 +56,7 @@ class ProductoController extends Controller
                 }
 
                 $nombreImagen = time() . '.' . $request->file('imagen')->getClientOriginalExtension();
-                $request->file('imagen')->move(public_path('images/vinos'), $nombreImagen);
+                $request->file('imagen')->move(public_path('images/vinos/'), $nombreImagen);
                 $producto->imagen = 'images/vinos/' . $nombreImagen;
             } catch (\Exception $e) {
                 return redirect()->back()->withErrors(['imagen' => 'Error al subir la imagen: ' . $e->getMessage()]);
