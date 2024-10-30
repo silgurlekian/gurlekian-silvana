@@ -14,7 +14,7 @@ class NoticiaSeeder extends Seeder
             'contenido' => 'Enzo Bianchi Gran Malbec 2021 recibió el trofeo de “Master” en The Global Malbec Masters 2024, una de las competencias más influyentes a nivel mundial, organizada por The Drinks Business. Con sede en Londres, The Drinks Business es una de las publicaciones más destacadas del mercado del vino y los licores. Lanzada en 2013, la competencia The Global Masters revolucionó la forma de evaluar los vinos, enfocándose únicamente en el estilo y el precio de cada etiqueta. Los jueces, compuestos por Masters of Wine, Master Sommeliers y expertos compradores, catan a ciegas vinos de distintas regiones del mundo, lo que convierte el premio «Master» en un reconocimiento de alcance global.',
             'fecha_publicacion' => now(),
             'autor' => "Silvana Gurlekian",
-            'imagen' => 'images/noticias/1727287561.jpeg',
+            'imagen' => 'images/noticias/1727288386.jpeg',
         ]);
 
         Noticia::create([
@@ -25,7 +25,7 @@ class NoticiaSeeder extends Seeder
             Pero, en todo caso, el desafío y el problema es para los enólogos y los ingenieros agrónomos. Quienes estamos del otro lado del escritorio nos llevamos, sin dudas, la parte más linda: descubrirlos, disfrutarlos.',
             'fecha_publicacion' => now(),
             'autor' => "Silvana Gurlekian",
-            'imagen' => 'images/noticias/1727287561.jpeg',
+            'imagen' => 'images/noticias/1727288474.jpeg',
         ]);
     }
 }
