@@ -14,7 +14,9 @@ class ProductoSeeder extends Seeder
     {
         Producto::create([
             'nombre' => 'Trapiche Reserva',
-            'descripcion' => 'Vino de alta calidad.',
+            'descripcion' => 'Intenso color rojo violáceo.
+            De aromas dulces a moras y ciruelas en nariz, se perciben notas ahumadas con una elegante presencia de vainilla.
+            De textura aterciopelada y final en boca amable y persistente.',
             'variedad' => 'Tinto Malbec',
             'bodega' => 'Zapata',
             'precio' => 5484.60,
@@ -24,7 +26,9 @@ class ProductoSeeder extends Seeder
 
         Producto::create([
             'nombre' => 'El Esteco',
-            'descripcion' => 'Vino de alta calidad.',
+            'descripcion' => 'Color: Violáceos, vivaz. Profundo con tonalidades negras. El tipo de lágrima formada en la copa denota una muy buena estructura y concentración.
+            Aroma: Elevada intensidad aromática. Encontramos notas especiadas, clavo de olor, chocolate blanco y vainilla.
+            Sabor: Taninos con gran estructura, representativos del varietal. Percepción de especias y roble. Largo final y elegante bouquet.',
             'variedad' => 'Tinto Pinot Noir',
             'bodega' => 'Don David',
             'precio' => 5081.40,
