@@ -23,9 +23,16 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('admin123'),
         ]);
 
+        User::factory()->create([
+            'name' => 'Usuario con compra',
+            'email' => 'usuario@mail.com',
+            'password' => Hash::make('admin123'),
+        ]);
+
         $this->call([
             ProductoSeeder::class,
             NoticiaSeeder::class,
+            CompraSeeder::class,
         ]);
     }
 }

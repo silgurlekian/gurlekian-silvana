@@ -5,6 +5,7 @@ use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\NoticiaController;
 use App\Http\Controllers\Admin\ProductoController as AdminProductoController;
 use App\Http\Controllers\Admin\NoticiaController as AdminNoticiaController;
+use App\Http\Controllers\Admin\UsuarioController as UsuarioController;
 use App\Http\Controllers\AuthController;
 
 // Ruta de la página principal
@@ -33,3 +34,9 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::resource('productos', AdminProductoController::class, ['as' => 'admin']);
     Route::resource('noticias', AdminNoticiaController::class, ['as' => 'admin']);
 });
+
+Route::middleware('auth')->prefix('admin')->group(function () {
+    Route::get('/usuarios', [UsuarioController::class, 'index'])->name('admin.usuarios.index');
+    Route::get('/usuarios/{id}', [UsuarioController::class, 'show'])->name('admin.usuarios.show');
+});
+
