@@ -33,7 +33,7 @@
             </div>
 
             <div class="mb-3">
-                <label for="imagen" class="form-label">Imagen</label>
+                <label for="imagen" class="form-label">Imagen (opcional)</label>
                 <input type="file" class="form-control" id="imagen" name="imagen" accept="image/*">
                 @error('imagen')
                     <div class="text-danger" id="error-imagen">{{ $message }}</div>

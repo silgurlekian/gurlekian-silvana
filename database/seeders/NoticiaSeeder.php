@@ -15,6 +15,7 @@ class NoticiaSeeder extends Seeder
             'fecha_publicacion' => now(),
             'autor' => "Silvana Gurlekian",
             'imagen' => 'images/noticias/1727288386.jpeg',
+            'descripcion_imagen' => 'VALE 100 DÓLARES Y FUE CATALOGADO ENTRE LOS MEJORES MALBEC DEL MUNDO',
         ]);
 
         Noticia::create([
@@ -26,6 +27,7 @@ class NoticiaSeeder extends Seeder
             'fecha_publicacion' => now(),
             'autor' => "Silvana Gurlekian",
             'imagen' => 'images/noticias/1727288474.jpeg',
+            'descripcion_imagen' => 'VALE 100 DÓLARES Y FUE CATALOGADO ENTRE LOS MEJORES MALBEC DEL MUNDO',
         ]);
     }
 }

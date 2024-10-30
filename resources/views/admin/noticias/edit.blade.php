@@ -35,7 +35,7 @@
             </div>
 
             <div class="mb-3">
-                <label for="imagen" class="form-label">Imagen</label>
+                <label for="imagen" class="form-label">Imagen (opcional)</label>
                 <input type="file" class="form-control" id="imagen" name="imagen" accept="image/*">
                 @if ($noticia->imagen)
                     <img src="{{ asset($noticia->imagen) }}" alt="{{ $noticia->titulo }}" class="img-thumbnail mt-2" style="max-width: 150px;">
