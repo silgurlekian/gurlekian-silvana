@@ -8,7 +8,7 @@
                 <div class="col-md-4 mb-4">
                     <div class="card shadow-sm border-light">
                         @if ($noticia->imagen)
-                            <img src="{{ asset($noticia->imagen) }}" class="card-img-top" alt="Imagen de la noticia">
+                            <img src="{{ asset($noticia->imagen) }}" class="card-img-top" alt="{{ asset($noticia->titulo) }}">
                         @endif
                         <div class="card-body">
                             <h3 class="card-title">{{ $noticia->titulo }}</h3>

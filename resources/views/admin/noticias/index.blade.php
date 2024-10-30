@@ -26,7 +26,7 @@
                     <tr>
                         <td>
                             @if($noticia->imagen)
-                                <img src="{{ asset($noticia->imagen) }}" alt="Imagen de la noticia" style="width: 100px; height: auto;">
+                                <img src="{{ asset($noticia->imagen) }}" alt="{{ asset($noticia->titulo) }}" style="width: 100px; height: auto;">
                             @else
                                 <span class="text-muted">Sin imagen</span>
                             @endif

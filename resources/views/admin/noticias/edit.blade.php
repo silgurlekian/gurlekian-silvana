@@ -41,7 +41,7 @@
                 <label for="imagen" class="form-label">Imagen</label>
                 <input type="file" class="form-control" id="imagen" name="imagen" accept="image/*">
                 @if ($noticia->imagen)
-                    <img src="{{ asset($noticia->imagen) }}" alt="Imagen de la noticia" class="img-thumbnail mt-2"
+                    <img src="{{ asset($noticia->imagen) }}" alt="{{ asset($noticia->titulo) }}" class="img-thumbnail mt-2"
                         style="max-width: 150px;">
                 @endif
                 @error('imagen')

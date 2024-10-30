@@ -5,7 +5,7 @@
         <h2 class="h1 my-4">{{ $noticia->titulo }}</h2>
         @if ($noticia->imagen)
             <div class="banner-imagen">
-                <img src="{{ asset($noticia->imagen) }}" class="img-fluid" alt="Imagen de la noticia">
+                <img src="{{ asset($noticia->imagen) }}" class="img-fluid" alt="{{ asset($noticia->titulo) }}">
             </div>
         @endif
         <p class="text-muted"><strong>Autor:</strong> {{ $noticia->autor }}</p>
