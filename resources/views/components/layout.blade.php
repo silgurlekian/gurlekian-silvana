@@ -35,7 +35,6 @@
                             <x-nav-link href="{{ route('admin.noticias.index', ['admin' => auth()->user()->id]) }}"
                                 :active="request()->routeIs('admin.noticias.*')">Administrar Noticias</x-nav-link>
                             <x-nav-link href="{{ route('admin.usuarios.index') }}" :active="request()->routeIs('usuarios.index')">Usuarios</x-nav-link>
-                            <!-- Nuevo enlace -->
 
                             <li class="nav-item">
                                 <a href="{{ route('logout') }}"
@@ -50,6 +49,7 @@
 
                         @guest
                             <x-nav-link href="{{ route('login') }}">Iniciar sesión</x-nav-link>
+                            <x-nav-link href="{{ route('register') }}">Registrarse</x-nav-link>
                         @endguest
                     </ul>
 
