@@ -15,6 +15,7 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
+        // Validaciones
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
@@ -29,13 +30,15 @@ class AuthController extends Controller
             'password.confirmed' => 'Las contraseñas no coinciden.',
         ]);
 
+        // Creación del usuario con rol "user"
         User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
+            'role' => 'user', // Asigna el rol predeterminado
         ]);
 
-        // Mensaje de éxito
+        // Redirige con mensaje de éxito
         return redirect()->route('login')->with('success', 'Registro exitoso. Puedes iniciar sesión.');
     }
 
@@ -46,6 +49,7 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
+        // Validaciones
         $request->validate([
             'email' => 'required|string|email|max:255',
             'password' => 'required|string|min:6',
@@ -55,6 +59,7 @@ class AuthController extends Controller
             'password.required' => 'La contraseña es obligatoria.',
         ]);
 
+        // Intento de inicio de sesión
         if (Auth::attempt($request->only('email', 'password'))) {
             return redirect()->route('home')->with('success', 'Has iniciado sesión exitosamente.');
         }

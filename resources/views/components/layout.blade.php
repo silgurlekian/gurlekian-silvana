@@ -30,6 +30,8 @@
                         <x-nav-link href="{{ route('noticias.index') }}" :active="request()->is('noticias.index')">Noticias</x-nav-link>
 
                         @auth
+                            <x-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">Mis datos</x-nav-link>
+
                             <x-nav-link href="{{ route('admin.productos.index', ['admin' => auth()->user()->id]) }}"
                                 :active="request()->routeIs('admin.productos.*')">Administrar Productos</x-nav-link>
                             <x-nav-link href="{{ route('admin.noticias.index', ['admin' => auth()->user()->id]) }}"
