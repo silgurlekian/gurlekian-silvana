@@ -36,15 +36,15 @@ Route::prefix('noticias')->group(function () {
 
 // Rutas protegidas para el panel de administración
 Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
-    // CRUD para productos y noticias
-    Route::resource('productos', AdminProductoController::class);
-    Route::resource('noticias', AdminNoticiaController::class);
-
-    // Gestión de usuarios
-    Route::get('usuarios', [UsuarioController::class, 'index'])->name('usuarios.index');
-    Route::get('usuarios/{id}', [UsuarioController::class, 'show'])->name('usuarios.show');
+    Route::middleware('App\Http\Middleware\CheckRole:admin')->group(function () {
+        Route::resource('productos', AdminProductoController::class);
+        Route::resource('noticias', AdminNoticiaController::class);
+        Route::get('usuarios', [UsuarioController::class, 'index'])->name('usuarios.index');
+        Route::get('usuarios/{id}', [UsuarioController::class, 'show'])->name('usuarios.show');
+    });
 });
 
+// Rutas del perfil de usuario
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');

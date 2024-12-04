@@ -32,11 +32,15 @@
                         @auth
                             <x-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">Mis datos</x-nav-link>
 
-                            <x-nav-link href="{{ route('admin.productos.index', ['admin' => auth()->user()->id]) }}"
-                                :active="request()->routeIs('admin.productos.*')">Administrar Productos</x-nav-link>
-                            <x-nav-link href="{{ route('admin.noticias.index', ['admin' => auth()->user()->id]) }}"
-                                :active="request()->routeIs('admin.noticias.*')">Administrar Noticias</x-nav-link>
-                            <x-nav-link href="{{ route('admin.usuarios.index') }}" :active="request()->routeIs('usuarios.index')">Usuarios</x-nav-link>
+                            @if (Auth::check() && Auth::user()->role === 'admin')
+                                <!-- Solo se muestra si el usuario tiene el rol 'admin' -->
+                                <x-nav-link href="{{ route('admin.productos.index') }}" :active="request()->routeIs('admin.productos.*')">Administrar
+                                    Productos</x-nav-link>
+                                <x-nav-link href="{{ route('admin.noticias.index') }}" :active="request()->routeIs('admin.noticias.*')">Administrar
+                                    Noticias</x-nav-link>
+                                <x-nav-link href="{{ route('admin.usuarios.index') }}"
+                                    :active="request()->routeIs('admin.usuarios.index')">Usuarios</x-nav-link>
+                            @endif
 
                             <li class="nav-item">
                                 <a href="{{ route('logout') }}"
@@ -59,7 +63,6 @@
             </div>
         </nav>
     </header>
-
 
     <main>
         {{ $slot }}
