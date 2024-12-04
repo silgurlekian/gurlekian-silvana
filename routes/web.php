@@ -9,7 +9,7 @@ use App\Http\Controllers\Admin\UsuarioController as UsuarioController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CarritoController;
-
+use App\Http\Controllers\MercadoPagoController;
 
 // Página principal
 Route::get('/', function () {
@@ -59,3 +59,8 @@ Route::middleware('auth')->prefix('carrito')->group(function () {
     Route::put('/update/{id}', [CarritoController::class, 'update'])->name('carrito.update');  // Ruta para actualizar la cantidad
     Route::delete('/remove/{id}', [CarritoController::class, 'remove'])->name('carrito.remove');
 });
+
+Route::get('/checkout', [MercadoPagoController::class, 'checkout'])->name('checkout');
+Route::get('/checkout/success', [MercadoPagoController::class, 'success'])->name('checkout.success');
+Route::get('/checkout/failure', [MercadoPagoController::class, 'failure'])->name('checkout.failure');
+Route::get('/checkout/pending', [MercadoPagoController::class, 'pending'])->name('checkout.pending');
