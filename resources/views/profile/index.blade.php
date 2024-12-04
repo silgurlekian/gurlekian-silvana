@@ -1,4 +1,4 @@
-<x-layout">
+<x-layout>
     <x-slot:title>Perfil de usuario</x-slot:title>
 
     <div class="container">
