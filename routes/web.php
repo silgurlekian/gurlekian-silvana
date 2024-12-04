@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\NoticiaController as AdminNoticiaController;
 use App\Http\Controllers\Admin\UsuarioController as UsuarioController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\MercadoPagoController;
 
 // Página principal
 Route::get('/', function () {
@@ -50,3 +51,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 });
+
+Route::get('producto/{producto_id}/pagar', [MercadoPagoController::class, 'show'])->name('mp.show');
+Route::get('mp/success', [MercadoPagoController::class, 'success'])->name('mp.success');
+Route::get('mp/pending', [MercadoPagoController::class, 'pending'])->name('mp.pending');
+Route::get('mp/failure', [MercadoPagoController::class, 'failure'])->name('mp.failure');
