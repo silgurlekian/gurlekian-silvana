@@ -30,17 +30,17 @@
                         <x-nav-link href="{{ route('noticias.index') }}" :active="request()->is('noticias.index')">Noticias</x-nav-link>
 
                         @auth
-                            <x-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">Mis datos</x-nav-link>
-
                             @if (Auth::check() && Auth::user()->role === 'admin')
                                 <!-- Solo se muestra si el usuario tiene el rol 'admin' -->
                                 <x-nav-link href="{{ route('admin.productos.index') }}" :active="request()->routeIs('admin.productos.*')">Administrar
-                                    Productos</x-nav-link>
+                                    productos</x-nav-link>
                                 <x-nav-link href="{{ route('admin.noticias.index') }}" :active="request()->routeIs('admin.noticias.*')">Administrar
-                                    Noticias</x-nav-link>
+                                    noticias</x-nav-link>
                                 <x-nav-link href="{{ route('admin.usuarios.index') }}"
                                     :active="request()->routeIs('admin.usuarios.index')">Usuarios</x-nav-link>
                             @endif
+
+                            <x-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">Mis datos</x-nav-link>
 
                             <li class="nav-item">
                                 <a href="{{ route('logout') }}"

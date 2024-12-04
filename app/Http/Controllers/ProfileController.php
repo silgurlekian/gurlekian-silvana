@@ -27,27 +27,33 @@ class ProfileController extends Controller
             return redirect()->route('login')->with('error', 'Por favor, inicie sesión para continuar.');
         }
 
-        // Validar los datos del formulario
+        // Mensajes personalizados de validación
+        $messages = [
+            'name.required' => 'El nombre es obligatorio.',
+            'name.string' => 'El nombre debe ser una cadena de texto válida.',
+            'name.max' => 'El nombre no puede superar los 255 caracteres.',
+            'email.required' => 'El correo electrónico es obligatorio.',
+            'email.email' => 'Por favor, ingrese una dirección de correo electrónico válida.',
+            'email.max' => 'El correo electrónico no puede superar los 255 caracteres.',
+            'email.unique' => 'Este correo electrónico ya está registrado.',
+        ];
+
+        // Validar los datos del formulario con mensajes personalizados
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users,email,' . Auth::id(),
-        ]);
+        ], $messages);
 
         // Actualizar los datos del usuario autenticado
         try {
-            // Asegurarse de que $user es una instancia de User
             if ($user instanceof \App\Models\User) {
-                // Actualizar los campos del usuario
                 $user->update($request->only(['name', 'email']));
             } else {
-                // Manejar el error si no es una instancia de User
                 return redirect()->route('profile.edit')->with('error', 'Error al actualizar perfil.');
             }
 
-            // Redirigir con un mensaje de éxito
             return redirect()->route('profile.edit')->with('success', 'Perfil actualizado correctamente.');
         } catch (\Exception $e) {
-            // Si ocurre un error, mostrarlo
             return redirect()->route('profile.edit')->with('error', 'Hubo un error al actualizar el perfil: ' . $e->getMessage());
         }
     }
