@@ -11,7 +11,19 @@
                 <p>{{ $producto->descripcion }}</p>
 
                 <p class="card-text precio"><strong>$ {{ $producto->precio }}</strong></p>
+
+                <form action="{{ route('carrito.add', $producto->id) }}" method="POST">
+                    @csrf
+                    <div class="form-group">
+                        <label for="cantidad">Cantidad</label>
+                        <input type="number" name="cantidad" id="cantidad" value="1" min="1"
+                            class="form-control" required>
+                    </div>
+                    <button class="btn btn-primary mt-3">Añadir al carrito</button>
+                </form>
+
             </div>
+
         </div>
 
         <div class="row my-4 pb-4">

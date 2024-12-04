@@ -8,6 +8,8 @@ use App\Http\Controllers\Admin\NoticiaController as AdminNoticiaController;
 use App\Http\Controllers\Admin\UsuarioController as UsuarioController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CarritoController;
+
 
 // Página principal
 Route::get('/', function () {
@@ -49,4 +51,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+});
+
+Route::middleware('auth')->prefix('carrito')->group(function () {
+    Route::get('/', [CarritoController::class, 'index'])->name('carrito.index');
+    Route::post('/add/{id}', [CarritoController::class, 'add'])->name('carrito.add');
+    Route::put('/update/{id}', [CarritoController::class, 'update'])->name('carrito.update');  // Ruta para actualizar la cantidad
+    Route::delete('/remove/{id}', [CarritoController::class, 'remove'])->name('carrito.remove');
 });
