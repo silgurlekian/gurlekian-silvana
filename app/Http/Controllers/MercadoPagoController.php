@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use MercadoPago\MercadoPagoConfig;
-use MercadoPago\Client\Payment\PaymentClient;
-use MercadoPago\Resource\Payment;
+use MercadoPago\Client\Preference\PreferenceClient;
+use Illuminate\Support\Facades\Log;
 
 class MercadoPagoController extends Controller
 {
@@ -17,57 +17,62 @@ class MercadoPagoController extends Controller
 
     public function checkout(Request $request)
     {
-        // Validar la entrada del usuario
-        $request->validate([
-            'nombre' => 'required|max:255',
-            'email' => 'required|email',
-        ]);
+        // Obtener el carrito desde la sesión
+        $carrito = session()->get('carrito', []);
 
-        // Crear un cliente para manejar los pagos
-        $client = new PaymentClient();
+        if (empty($carrito)) {
+            return redirect()->route('carrito.index')->with('error', 'No hay productos en el carrito.');
+        }
+
+        // Agregar los ítems del carrito a la preferencia
+        $items = [];
+        foreach ($carrito as $id => $item) {
+            $items[] = [
+                'title' => $item['producto']->nombre,
+                'quantity' => (int)$item['cantidad'], // Debe ser un entero
+                'unit_price' => (float)$item['producto']->precio, // Debe ser un número flotante
+            ];
+        }
 
         // Crear la preferencia de pago
-        $paymentData = [
-            "transaction_amount" => 100, // Monto total
-            "description" => "Producto de Prueba",
-            "payment_method_id" => "pse", // Método de pago (ejemplo)
-            "payer" => [
-                "email" => $request->email,
-                "first_name" => $request->nombre,
-                "entity_type" => "individual",
-                "identification" => [
-                    "type" => "DNI", // Tipo de identificación
-                    "number" => "12345678" // Número de identificación (ejemplo)
-                ]
-            ],
-            "back_urls" => [
-                "success" => route('checkout.success'),
-                "failure" => route('checkout.failure'),
-                "pending" => route('checkout.pending')
-            ]
-        ];
+        $factory = new PreferenceClient();
 
         try {
-            // Crear el pago
-            $payment = $client->create($paymentData);
-            return view('checkout')->with('payment', $payment);
+            // Crear la preferencia
+            $preference = $factory->create([
+                'items' => $items,
+                'back_urls' => [
+                    'success' => route('checkout.success'),
+                    'failure' => route('checkout.failure'),
+                    'pending' => route('checkout.pending'),
+                ],
+                'auto_return' => 'approved',
+            ]);
+
+            return view('mercadopago.checkout', [
+                'preference' => $preference,
+                'mpPublicKey' => config('mercadopago.public_key'),
+            ]);
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+            Log::error('Error al crear la preferencia: ' . $e->getMessage());
+            Log::error('Detalles del error: ', ['exception' => $e]);
+
+            return response()->json(['error' => 'Error al crear la preferencia: ' . $e->getMessage()], 500);
         }
     }
 
     public function success(Request $request)
     {
-        return 'Pago exitoso';
+        return view('mercadopago.success'); // Vista para mostrar éxito
     }
 
     public function failure(Request $request)
     {
-        return 'Pago fallido';
+        return view('mercadopago.failure'); // Vista para mostrar fallo
     }
 
     public function pending(Request $request)
     {
-        return 'Pago pendiente';
+        return view('mercadopago.pending'); // Vista para mostrar pendiente
     }
 }

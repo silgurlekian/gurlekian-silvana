@@ -53,6 +53,7 @@ Route::middleware('auth')->group(function () {
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 });
 
+// Rutas del carrito
 Route::middleware('auth')->prefix('carrito')->group(function () {
     Route::get('/', [CarritoController::class, 'index'])->name('carrito.index');
     Route::post('/add/{id}', [CarritoController::class, 'add'])->name('carrito.add');
@@ -60,6 +61,7 @@ Route::middleware('auth')->prefix('carrito')->group(function () {
     Route::delete('/remove/{id}', [CarritoController::class, 'remove'])->name('carrito.remove');
 });
 
+// Rutas de Mercado Pago
 Route::get('/checkout', [MercadoPagoController::class, 'checkout'])->name('checkout');
 Route::get('/checkout/success', [MercadoPagoController::class, 'success'])->name('checkout.success');
 Route::get('/checkout/failure', [MercadoPagoController::class, 'failure'])->name('checkout.failure');

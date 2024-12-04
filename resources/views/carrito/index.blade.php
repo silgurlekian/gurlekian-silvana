@@ -2,7 +2,7 @@
     <x-slot:title>Carrito de compras</x-slot:title>
 
     <div class="container">
-        <h1>Carrito de compras</h1>
+        <h2 class="h1 my-4">Carrito de compras</h2>
 
         @if (empty($carrito))
             <p>No hay productos en el carrito.</p>
@@ -21,16 +21,17 @@
                     @foreach ($carrito as $id => $item)
                         <tr>
                             <td>{{ $item['producto']->nombre }}</td>
-                            <td>${{ $item['producto']->precio }}</td>
+                            <td>${{ number_format($item['producto']->precio, 2) }}</td>
                             <td>
                                 <form action="{{ route('carrito.update', $id) }}" method="POST">
                                     @csrf
                                     @method('PUT')
-                                    <input type="number" name="cantidad" value="{{ $item['cantidad'] }}" min="1" class="form-control" required>
+                                    <input type="number" name="cantidad" value="{{ $item['cantidad'] }}" min="1"
+                                        class="form-control" required>
                                     <button type="submit" class="btn btn-primary btn-sm">Actualizar</button>
                                 </form>
                             </td>
-                            <td>${{ $item['producto']->precio * $item['cantidad'] }}</td>
+                            <td>${{ number_format($item['producto']->precio * $item['cantidad'], 2) }}</td>
                             <td>
                                 <form action="{{ route('carrito.remove', $id) }}" method="POST">
                                     @csrf
@@ -44,7 +45,7 @@
             </table>
 
             <div class="text-end">
-                <a href="#" class="btn btn-primary">Proceder al pago</a>
+                <a href="{{ route('checkout') }}" class="btn btn-primary">Proceder al pago</a>
             </div>
         @endif
     </div>
