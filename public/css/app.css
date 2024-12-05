@@ -291,6 +291,10 @@ form .d-flex {
         min-height: 600px;
     }
 
+    .card.card-dash {
+        min-height: inherit;
+    }
+
     .linkVolver {
         width: auto;
         bottom: 70px;

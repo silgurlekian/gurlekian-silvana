@@ -32,6 +32,7 @@
                         @auth
                             @if (Auth::check() && Auth::user()->role === 'admin')
                                 <!-- Solo se muestra si el usuario tiene el rol 'admin' -->
+                                <x-nav-link href="{{ route('admin.dashboard') }}" :active="request()->routeIs('admin.dashboard.*')">Dashboard</x-nav-link>
                                 <x-nav-link href="{{ route('admin.productos.index') }}" :active="request()->routeIs('admin.productos.*')">Administrar
                                     productos</x-nav-link>
                                 <x-nav-link href="{{ route('admin.noticias.index') }}" :active="request()->routeIs('admin.noticias.*')">Administrar

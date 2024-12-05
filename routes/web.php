@@ -10,6 +10,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CarritoController;
 use App\Http\Controllers\MercadoPagoController;
+use App\Http\Controllers\Admin\DashboardController as DashboardController;
+
 
 // Página principal
 Route::get('/', function () {
@@ -43,6 +45,8 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         Route::resource('noticias', AdminNoticiaController::class);
         Route::get('usuarios', [UsuarioController::class, 'index'])->name('usuarios.index');
         Route::get('usuarios/{id}', [UsuarioController::class, 'show'])->name('usuarios.show');
+
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     });
 });
 

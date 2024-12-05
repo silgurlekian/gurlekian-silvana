@@ -61,6 +61,11 @@ class AuthController extends Controller
 
         // Intento de inicio de sesión
         if (Auth::attempt($request->only('email', 'password'))) {
+            // Redirigir según el rol del usuario
+            if (Auth::user()->role === 'admin') {
+                return redirect()->route('admin.dashboard')->with('success', 'Has iniciado sesión como administrador.');
+            }
+
             return redirect()->route('home')->with('success', 'Has iniciado sesión exitosamente.');
         }
 
