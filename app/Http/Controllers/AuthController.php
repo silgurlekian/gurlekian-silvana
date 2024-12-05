@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash; 
 use App\Models\User;
 
 class AuthController extends Controller
@@ -34,7 +35,8 @@ class AuthController extends Controller
         User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => bcrypt($request->password),
+            // Usar Hash para hashear la contraseña
+            'password' => Hash::make($request->password),
             'role' => 'user', // Asigna el rol predeterminado
         ]);
 
