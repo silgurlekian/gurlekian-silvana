@@ -10,8 +10,8 @@
                         <img src="{{ asset($producto->imagen) }}" class="card-img-producto" alt="{{ $producto->nombre }}">
                         <div class="card-body">
                             <h3 class="card-title">{{ $producto->nombre }}</h3>
-                            <p class="card-text">{{ $producto->descripcion }}</p>
-                            <p class="card-text"><strong>Precio:</strong> ${{ $producto->precio }}</p>
+                            <p class="card-text descripcion">{{ $producto->descripcion }}</p> 
+                            <p class="card-text"><strong>Precio:</strong> ${{ number_format($producto->precio, 2) }}</p>
                             <a href="{{ route('productos.show', $producto->id) }}" class="btn btn-primary">Ver Detalle</a> 
                         </div>
                     </div>
