@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash; // Importar Hash para manejar contraseñas
 use App\Models\Compra;
 
 class ProfileController extends Controller
@@ -35,22 +36,27 @@ class ProfileController extends Controller
             'name.required' => 'El nombre es obligatorio.',
             'name.string' => 'El nombre debe ser una cadena de texto válida.',
             'name.max' => 'El nombre no puede superar los 255 caracteres.',
-            'email.required' => 'El correo electrónico es obligatorio.',
-            'email.email' => 'Por favor, ingrese una dirección de correo electrónico válida.',
-            'email.max' => 'El correo electrónico no puede superar los 255 caracteres.',
-            'email.unique' => 'Este correo electrónico ya está registrado.',
+            'password.min' => 'La contraseña debe tener al menos 6 caracteres.',
+            'password.confirmed' => 'Las contraseñas no coinciden.',
         ];
 
         // Validar los datos del formulario con mensajes personalizados
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:users,email,' . Auth::id(),
+            'password' => 'nullable|string|min:6|confirmed', // Contraseña es opcional
         ], $messages);
 
         // Actualizar los datos del usuario autenticado
         try {
             if ($user instanceof \App\Models\User) {
-                $user->update($request->only(['name', 'email']));
+                // Actualizar solo el nombre y la contraseña si se proporciona
+                $user->name = $request->name;
+
+                if ($request->filled('password')) {
+                    $user->password = Hash::make($request->password); // Hashear la nueva contraseña
+                }
+
+                $user->save(); // Guardar cambios en el usuario
             } else {
                 return redirect()->route('profile.edit')->with('error', 'Error al actualizar perfil.');
             }

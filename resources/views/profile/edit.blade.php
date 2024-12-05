@@ -31,11 +31,26 @@
 
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
-                <input type="email" name="email" id="email" class="form-control" value="{{ Auth::user()->email }}" >
+                <input type="email" name="email" id="email" class="form-control" value="{{ Auth::user()->email }}" disabled>
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">Nueva Contraseña</label>
+                <input type="password" name="password" id="password" class="form-control">
                 
-                <!-- Mostrar mensaje de error para 'email' -->
-                @error('email')
-                    <div class="text-danger" id="error-email">{{ $message }}</div>
+                <!-- Mostrar mensaje de error para 'password' -->
+                @error('password')
+                    <div class="text-danger" id="error-password">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="mb-3">
+                <label for="password_confirmation" class="form-label">Confirmar Nueva Contraseña</label>
+                <input type="password" name="password_confirmation" id="password_confirmation" class="form-control">
+                
+                <!-- Mostrar mensaje de error para 'password_confirmation' -->
+                @error('password_confirmation')
+                    <div class="text-danger" id="error-password-confirmation">{{ $message }}</div>
                 @enderror
             </div>
 
