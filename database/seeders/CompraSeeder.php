@@ -10,10 +10,11 @@ class CompraSeeder extends Seeder
 {
     public function run()
     {
-        // Crear una compra ficticia para el usuario
         Compra::create([
             'user_id' => 2,
             'producto_id' => 1, 
+            'cantidad' => 3, 
+            'total' => 4520.50
         ]);
     }
 }

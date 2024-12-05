@@ -11,7 +11,9 @@ class CreateComprasTable extends Migration
         Schema::create('compras', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->text('producto_id'); // Cambia esto si necesitas una relación diferente o estructura diferente.
+            $table->foreignId('producto_id')->constrained()->onDelete('cascade');
+            $table->integer('cantidad'); 
+            $table->decimal('total', 10, 2); 
             $table->timestamps();
         });
     }

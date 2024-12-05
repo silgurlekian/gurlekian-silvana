@@ -4,19 +4,22 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Compra;
 
 class ProfileController extends Controller
 {
     public function show()
     {
         $user = Auth::user();  // Obtener el usuario autenticado
-        return view('profile.index', compact('user'));  // Mostrar la vista con los datos del usuario
+        $compras = Compra::where('user_id', $user->id)->with('producto')->get(); // Obtener historial de compras
+
+        return view('profile.index', compact('user', 'compras'));  // Mostrar la vista con los datos del usuario y las compras
     }
 
     public function edit()
     {
-        $user = Auth::user();  // Obtener el usuario autenticado
-        return view('profile.edit', compact('user'));  // Mostrar la vista para editar el perfil
+        $user = Auth::user();
+        return view('profile.edit', compact('user'));
     }
 
     public function update(Request $request)
