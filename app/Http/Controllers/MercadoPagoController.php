@@ -6,9 +6,9 @@ use Illuminate\Http\Request;
 use MercadoPago\MercadoPagoConfig;
 use MercadoPago\Client\Preference\PreferenceClient;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\DB; // Asegúrate de importar DB
-use App\Models\Compra; // Importa el modelo Compra
-use Illuminate\Support\Facades\Auth; // Para obtener el usuario autenticado
+use Illuminate\Support\Facades\DB; 
+use App\Models\Compra; 
+use Illuminate\Support\Facades\Auth; 
 
 class MercadoPagoController extends Controller
 {
