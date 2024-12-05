@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use MercadoPago\MercadoPagoConfig;
 use MercadoPago\Client\Preference\PreferenceClient;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB; // Asegúrate de importar DB
+use App\Models\Compra; // Importa el modelo Compra
+use Illuminate\Support\Facades\Auth; // Para obtener el usuario autenticado
 
 class MercadoPagoController extends Controller
 {
@@ -63,6 +66,31 @@ class MercadoPagoController extends Controller
 
     public function success(Request $request)
     {
+        // Obtener el carrito desde la sesión
+        $carrito = session()->get('carrito', []);
+
+        if (empty($carrito)) {
+            return redirect()->route('carrito.index')->with('error', 'No hay productos en el carrito.');
+        }
+
+        // Calcular el total y preparar el detalle
+        $total = 0;
+        foreach ($carrito as $item) {
+            $subtotal = (float)$item['producto']->precio * (int)$item['cantidad'];
+            $total += $subtotal;
+
+            // Aquí puedes guardar cada producto comprado si lo deseas.
+            Compra::create([
+                'user_id' => Auth::id(),
+                'producto_id' => $item['producto']->id,
+                'cantidad' => (int)$item['cantidad'],
+                'total' => $subtotal, // O almacena total por compra si es necesario.
+            ]);
+        }
+
+        // Limpiar el carrito después de la compra exitosa
+        session()->forget('carrito');
+
         return view('mercadopago.success'); // Vista para mostrar éxito
     }
 

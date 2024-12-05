@@ -43,6 +43,21 @@
                             <x-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">Mis datos</x-nav-link>
 
                             <li class="nav-item">
+                                <a class="nav-link" href="{{ route('carrito.index') }}">
+                                    Carrito
+                                    @auth
+                                        @php
+                                            $carrito = session()->get('carrito', []);
+                                            $cantidadTotal = array_sum(array_column($carrito, 'cantidad'));
+                                        @endphp
+                                        @if ($cantidadTotal > 0)
+                                            <span class="badge bg-danger">{{ $cantidadTotal }}</span>
+                                        @endif
+                                    @endauth
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
                                 <a href="{{ route('logout') }}"
                                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
                                     class="nav-link">Cerrar sesión</a>
